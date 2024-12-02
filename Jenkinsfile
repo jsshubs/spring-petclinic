@@ -9,7 +9,7 @@ pipeline {
   stages {
     // GitHub에서 Jenkins소스코드 복사
     stage('Git Clone'){
-      step{
+      steps{
         git url: 'https://github.com/jsshubs/spring-petclinic.git', branch: 'main'
       }
 
