@@ -11,7 +11,6 @@ pipeline {
     stage('Git Clone'){
       step{
         git url: 'https://github.com/jsshubs/spring-petclinic.git', branch: 'main'
-        
       }
 
     }
