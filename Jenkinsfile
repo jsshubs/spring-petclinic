@@ -15,20 +15,8 @@ pipeline {
       }
 
     }
-    stage('Maven Build'){
-      step{
 
-      }
-    }
-    stage('Docker Image'){
 
-    }
-    stage('Docker Image Push'){
-
-    }
-    stage('SSH Publish'){
-      
-    }
 
   }
 
