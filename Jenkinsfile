@@ -22,7 +22,45 @@ pipeline {
         git url: 'https://github.com/jsshubs/spring-petclinic.git',
          branch: 'main'
       }
-   
-  }      
+    }
+    //Maven 빌드 작업
+    stage('Maven Build') {
+      steps {
+        echo 'Maven Build'
+        sh 'mvn -Dmaven.test.failure.ignore=true clean package'
+      }
+    }
+    //Docker Image 생성
+    stage ('Docker Image Build') {
+      steps {
+        echo 'Docker Image build'
+        dir("${env.WORKSPACE}"){
+          sh """
+          docker build -t jeongsik4/spring-petclinic:$BUILD_NUMBER .
+          docker tag jeongsik4/spring-petclinic:$BUILD_NUMBER jeongsik4/spring-petclinic:latest
+          """
+        }
+      }
+    }
+
+    // DockerHub Login and Image Push
+    stage('Docker Login'){
+      steps {
+        sh """
+        echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+        docker push jeongsik4/spring-petclinic:latest
+        """
+      }
+    }
+     //Docker Image 삭제
+    stage('Remove Docker Image'){
+      steps{
+        sh """
+        docker rmi jeongsik4/spring-petclinic:$BUILD_NUMBER
+        docker rmi jeongsik4/spring-petclinic:latest
+        """
+      }
+    }
+    
  }
 }
