@@ -19,7 +19,7 @@ pipeline {
     stage('Git Clone') {
       steps {
         echo 'Git Clone'
-        gir url: 'https://github.com/jsshubs/spring-petclinic',
+        gir url: 'https://github.com/jsshubs/spring-petclinic.git',
          branch: 'main'
       }
    
